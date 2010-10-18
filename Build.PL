@@ -112,7 +112,7 @@ my $gv = $gsl_pkgcfg{'modversion'};
 my $current_minor_version;
 
 my $path_system = File::Spec->catfile('swig', 'system.i');
-open my $fh, ">", "$path_system" or die $!;
+open my $fh, ">", "$path_system" or die "Could not create system.i : $!";
 
 if (defined $gv) {
   if ($gv =~ m{\A(\d+(?:\.\d+)+)}) {
@@ -204,7 +204,7 @@ my $builder = GSLBuilder->new(
     dist_abstract       => 'Interface to the GNU Scientific Library using SWIG',
     dist_author         => 'Jonathan Leto <jonathan@leto.net>',
     dist_version_from   => 'lib/Math/GSL.pm',
-    include_dirs	    => q{},
+    include_dirs	    => [],
     extra_linker_flags  => '-shared ' . $ldflags,
     extra_compiler_flags=> "$ccflags " . ($ENV{CC_FLAGS}||''),
     swig_flags          => $swig_flags, 

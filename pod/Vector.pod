@@ -2,13 +2,17 @@
 use Scalar::Util 'blessed';
 use Data::Dumper;
 use Carp qw/croak/;
-use Math::GSL::Errno qw/:all/;
+use Math::GSL::Errno qw/$GSL_SUCCESS gsl_strerror/;
 use Math::GSL::BLAS qw/gsl_blas_ddot/;
+use Math::GSL::Test qw/is_similar/;
+
 use overload
     '*'      => \&_multiplication,
     '+'      => \&_addition,
     '-'      => \&_subtract,
     'abs'    => \&_abs,
+    '=='     => \&_equal,
+    '!='     => \&_not_equal,
     fallback => 1,
 ;
 
@@ -370,10 +374,23 @@ sub dot_product_pp {
 
 sub dot_product {
     my ($left,$right) = @_;
-    
+
     my ($status, $product) = gsl_blas_ddot($left->raw,$right->raw);
-    croak sprintf "Math::GSL::dot_product - %s", gsl_strerror($status) if ($status != $GSL_SUCCESS);  
+    croak sprintf "Math::GSL::dot_product - %s", gsl_strerror($status) if ($status != $GSL_SUCCESS);
     return $product;
+}
+
+sub _equal {
+    my ($left,$right) = @_;
+
+    return 0 if ($left->length != $right->length);
+
+    return is_similar(  [$left->as_list ], [$right->as_list ]);
+}
+
+sub _not_equal {
+    my ($left, $right) = @_;
+    return !_equal($left,$right);
 }
 
 =head1 DESCRIPTION
@@ -448,13 +465,13 @@ Here is a list of all the functions included in this module :
 
 =item C<gsl_vector_minmax_index> -  return two values, the first is the position of the minimum value in the vector $v and the second is the position of the maximum value.
 
-=item C<gsl_vector_add($v, $v2)> - add the elements of $v2 to the elements of $v, the two vectors must have the same lenght and return 0 if the operation succeded, 1 otherwise.
+=item C<gsl_vector_add($v, $v2)> - add the elements of $v2 to the elements of $v, the two vectors must have the same length and return 0 if the operation succeded, 1 otherwise.
 
-=item C<gsl_vector_sub($v, $v2)> - substract the elements of $v2 from the elements of $v, the two vectors must have the same lenght and return 0 if the operation succeded, 1 otherwise.
+=item C<gsl_vector_sub($v, $v2)> - substract the elements of $v2 from the elements of $v, the two vectors must have the same length and return 0 if the operation succeded, 1 otherwise.
 
-=item C<gsl_vector_mul($v, $v2)> - multiply the elements of $v by the elements of $v2, the two vectors must have the same lenght and return 0 if the operation succeded, 1 otherwise.
+=item C<gsl_vector_mul($v, $v2)> - multiply the elements of $v by the elements of $v2, the two vectors must have the same length and return 0 if the operation succeded, 1 otherwise.
 
-=item C<gsl_vector_div($v, $v2)> - divides the elements of $v by the elements of $v2, the two vectors must have the same lenght and return 0 if the operation succeded, 1 otherwise.
+=item C<gsl_vector_div($v, $v2)> - divides the elements of $v by the elements of $v2, the two vectors must have the same length and return 0 if the operation succeded, 1 otherwise.
 
 =item C<gsl_vector_scale($v, $x)> - multiplty the elements of the vector $v by a constant $x and return 0 if the operation succeded, 1 otherwise.
 

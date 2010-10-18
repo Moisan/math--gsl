@@ -22,7 +22,7 @@ our %EXPORT_TAGS = ( all => \@EXPORT_OK, );
 
 our ($GSL_PREC_DOUBLE, $GSL_PREC_SINGLE, $GSL_PREC_APPROX ) = 0 .. 2;
 our $GSL_MODE_DEFAULT = $GSL_PREC_DOUBLE;
-our $VERSION = '0.20';
+our $VERSION = '0.22';
 
 =head1 NAME
 
@@ -30,7 +30,7 @@ Math::GSL - Perl interface to the GNU Scientific Library (GSL)
 
 =head1 VERSION
 
-Version 0.20
+Version 0.22
 
 =head1 SYNOPSIS
 
@@ -38,7 +38,7 @@ Version 0.20
     my $matrix = Math::GSL::Matrix->new(5,5);   # 5x5 zero matrix
     # note that columns and rows are zero-based
     $matrix->set_col(0, [1..5])                 # set *first* column to 1,2,3,4,5
-           ->set_row(2, [5..9]);                # set *third* column to 5,6,7,8,9   
+           ->set_row(2, [5..9]);                # set *third* column to 5,6,7,8,9
     my @matrix = $matrix->as_list;              # matrix as Perl list
     my $gsl_matrix = $matrix->raw;              # underlying GSL object
 
@@ -117,6 +117,25 @@ Jonathan Leto, C<< <jonathan@leto.net> >> and Thierry Moisan C<< <thierry.moisan
 This software is still in active development, we appreciate your detailed bug reports and
 documentation patches. Please report any bugs or feature requests to the authors directly.
 
+=head1 COMPILING ISSUES
+
+Some operating system configurations will make the compilation of Math::GSL fail. One
+common problem that happens on RedHat Linux (RHEL) and CentOS looks like this:
+
+
+    Error:  Can't load '/usr/src/misc/perl-package/Math-GSL-0.20/blib/arch/auto/Math/GSL/Errno/Errno.so'
+    for module Math::GSL::Errno: /usr/src/misc/perl-package/Math-GSL-0.20/blib/arch/auto/Math/GSL/Errno/Errno.so:
+    cannot restore segment prot after reloc: Permission denied at /usr/lib/perl5/5.10.0/i386-linux-thread-multi/DynaLoader.pm line 203.
+    #  at blib/lib/Math/GSL/Errno.pm line 10
+
+This is due the the SE Linux setting being set to "enforcing". To Temporarily
+disable enforcement on a running system:
+
+    /usr/sbin/setenforce 0
+
+To permanently disable enforcement during a system startup change "enforcing" to
+"disabled" in ''/etc/selinux/config'' and reboot.
+
 
 =head1 SUPPORT
 
@@ -148,9 +167,8 @@ If you would like the help develop Math::GSL, email the authors
 and do
 
     git clone git://github.com/leto/math--gsl.git
-    cd Math-GSL
-    git checkout -b bleed   # create new local branch
-    git pull origin bleed   # pull in remote bleed
+    cd math--gsl
+    # start hacking
 
 to get the latest source, which is a two-headed beast with branches master and
 bleed. The master branch is our stable branch, which is periodically sync-ed
@@ -169,7 +187,7 @@ This Perl module is dedicated in memory of Nick Ing-Simmons.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2008-2009 Jonathan Leto, Thierry Moisan all rights reserved.
+Copyright 2008-2010 Jonathan Leto, Thierry Moisan all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

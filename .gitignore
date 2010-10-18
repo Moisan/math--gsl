@@ -5,7 +5,7 @@ Build
 blib
 *.bak
 *_wrap\.*
-\.*sw[op]
+\.*sw?
 _build
 tmp*
 pod2htm*
@@ -18,3 +18,8 @@ tags
 xs/*_wrap.c
 swig/system.i
 .prove
+Math-GSL-*/
+MYMETA.yml
+META.yml
+Makefile.PL
+Math-GSL-*.gz
