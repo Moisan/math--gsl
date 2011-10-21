@@ -2,7 +2,7 @@
 
 @EXPORT_OK = qw($gsl_qrng_niederreiter_2 $gsl_qrng_sobol $gsl_qrng_halton $gsl_qrng_reversehalton
                 gsl_qrng_alloc gsl_qrng_memcpy gsl_qrng_clone
-                gsl_qrng_free  gsl_qrng_init gsl_qrng_name 
+                gsl_qrng_free  gsl_qrng_init gsl_qrng_name
                 gsl_qrng_size gsl_qrng_state gsl_qrng_get
             );
 %EXPORT_TAGS = ( all => [ @EXPORT_OK ] );
@@ -30,11 +30,11 @@ Here is a list of all the functions included in this module :
 
 =item C<gsl_qrng_memcpy($dest, $src)> - This function copies the quasi-random sequence generator $src into the pre-existing generator $dest, making $dest into an exact copy of $src. The two generators must be of the same type.
 
-=item C<gsl_qrng_free($q)> - This function frees all the memory associated with the generator $q. 
+=item C<gsl_qrng_free($q)> - This function frees all the memory associated with the generator $q.
 
-=item C<gsl_qrng_init($q)> - This function reinitializes the generator $q to its starting point. Note that quasi-random sequences do not use a seed and always produce the same set of values. 
+=item C<gsl_qrng_init($q)> - This function reinitializes the generator $q to its starting point. Note that quasi-random sequences do not use a seed and always produce the same set of values.
 
-=item C<gsl_qrng_name($q)> - This function returns a pointer to the name of the generator $q. 
+=item C<gsl_qrng_name($q)> - This function returns a pointer to the name of the generator $q.
 
 =item C<gsl_qrng_size($q)> - This function returns the size of the state of generator r from the generator $q. You can use this information to access the state directly.
 
@@ -44,15 +44,15 @@ Here is a list of all the functions included in this module :
 
 =back
 
-This module also contains the following constants : 
+This module also contains the following constants :
 
 =over
 
 =item C<$gsl_qrng_niederreiter_2>
 
-=item C<$gsl_qrng_sobol> 
+=item C<$gsl_qrng_sobol>
 
-=item C<$gsl_qrng_halton> 
+=item C<$gsl_qrng_halton>
 
 =item C<$gsl_qrng_reversehalton>
 

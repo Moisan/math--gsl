@@ -37,7 +37,7 @@ Math::GSL::VectorComplex - Complex Vectors
     use Math::GSL::VectorComplex qw/:all/;
     my $vec1 = Math::GSL::VectorComplex->new([1 + 2*i, 7*i, 5, -3 ]);
     my $vec2 = $vec1 * 5;
-    my $vec3 = Math::GSL::Vector>new(10);   # 10 element zero vector 
+    my $vec3 = Math::GSL::Vector>new(10);   # 10 element zero vector
     my $vec4 = $vec1 + $vec2;
 
     # set the element at index 1 to -i
@@ -103,7 +103,7 @@ Get the underlying GSL vector object created by SWIG, useful for using gsl_vecto
 
 =cut
 
-sub raw { 
+sub raw {
     my $self = shift;
     return $self->{_vector};
 }
@@ -115,7 +115,7 @@ Returns the minimum value contained in the vector.
    my $vector = Math::GSL::VectorComplex->new([2,4,1]);
    my $minimum = $vector->min;
 
-=cut 
+=cut
 
 sub min {
     my $self=shift;
@@ -129,7 +129,7 @@ Returns the minimum value contained in the vector.
    my $vector = Math::GSL::VectorComplex->new([2,4,1]);
    my $maximum = $vector->max;
 
-=cut 
+=cut
 
 sub max {
     my $self=shift;
@@ -143,11 +143,11 @@ Returns the number of elements contained in the vector.
    my $vector = Math::GSL::VectorComplex->new([2,4,1]);
    my $length = $vector->length;
 
-=cut 
+=cut
 
 sub length { my $self=shift; $self->{_length} }
 
-=head2  as_list() 
+=head2  as_list()
 
 Gets the content of a Math::GSL::Vector object as a Perl list.
 
@@ -202,7 +202,7 @@ sub reverse {
     return $copy;
 }
 
-=head2  set() 
+=head2  set()
 
 Sets values of an of a Math::GSL::Vector object.
 

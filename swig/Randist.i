@@ -22,7 +22,7 @@ void gsl_ran_bivariate_gaussian (const gsl_rng * r, double sigma_x, double sigma
     len = av_len(tempav);
     $1 = (int **) malloc((len+2)*sizeof(int *));
     for (i = 0; i <= len; i++) {
-        tv = av_fetch(tempav, i, 0);    
+        tv = av_fetch(tempav, i, 0);
         x  = SvIV(*tv);
         memset((int*)($1+i), x , 1);
         //printf("curr = %d\n", (int)($1+i) );

@@ -662,7 +662,7 @@ sub set_row {
     my ($self, $row, $values) = @_;
     my $length = $#$values;
     die __PACKAGE__.'::new($x, $values) - $values must be a nonempty array reference' if $length == -1;
-    die __PACKAGE__.'::set_row($x, $values) - $x must be a valid row number' 
+    die __PACKAGE__.'::set_row($x, $values) - $x must be a valid row number'
         if ($row < 0 || $row >= $self->rows);
     die __PACKAGE__.'::set_row($x, $values) - $values must contains the same number of elements as there is columns in the matrix'
         if($length != $self->cols-1);
@@ -690,7 +690,7 @@ sub set_col {
     my $length = $#$values;
 
     die __PACKAGE__.'::new($x, $values) - $values must be a nonempty array reference' if $length == -1;
-    die __PACKAGE__.'::set_row($x, $values) - $x must be a valid column number' 
+    die __PACKAGE__.'::set_row($x, $values) - $x must be a valid column number'
         if ($col < 0 || $col >= $self->cols);
     die __PACKAGE__.'::set_row($x, $values) - $values must contains the same number of elements as there is rowss in the matrix'
         if($length != $self->rows-1);
@@ -743,7 +743,7 @@ sub _multiplication {
             #gsl_matrix_mul_elements($lcopy->raw, $right->raw);
         } else {
             croak "Math::GSL::Matrix - multiplication of elements of matrices must be called with two objects matrices and must have the same number of columns and rows";
-        } 
+        }
     } else {
         gsl_matrix_scale($lcopy->raw, $right);
     }

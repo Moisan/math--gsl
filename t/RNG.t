@@ -2,9 +2,9 @@ package Math::GSL::RNG::Test;
 use base q{Test::Class};
 use Test::More tests => 32;
 use Math::GSL        qw/:all/;
-use Math::GSL::RNG   qw/:all/; 
+use Math::GSL::RNG   qw/:all/;
 use Math::GSL::Test  qw/:all/;
-use Math::GSL::Errno qw/:all/; 
+use Math::GSL::Errno qw/:all/;
 use Data::Dumper;
 use strict;
 BEGIN { gsl_set_error_handler_off() }
@@ -28,7 +28,7 @@ sub GSL_RNG_TYPE : Tests {
     isa_ok( $type, 'Math::GSL::RNG::gsl_rng_type', 'gsl_rng_type' );
 }
 
-sub GSL_RNG_ALLOC : Tests { 
+sub GSL_RNG_ALLOC : Tests {
     for my $rngtype ( $gsl_rng_random256_bsd, $gsl_rng_knuthran,
                       $gsl_rng_transputer, $gsl_rng_knuthran2002) {
         my $rng;
@@ -66,7 +66,7 @@ sub GSL_RNG_STATE : Tests {
 
     my @vals1 = map { $rng1->get } (1..$k);
     my @vals2 = map { $rng2->get } (1..$k);
-    
+
     is_deeply( [@vals1], [@vals2], "state test, $#vals1 values checked");
 }
 
@@ -99,7 +99,7 @@ sub GSL_RNG_MIN_AND_MAX : Tests {
     my $rng = $self->{rng};
     my ($min,$max) = (gsl_rng_min($rng), gsl_rng_max($rng));
     map { gsl_rng_get($rng) } (1..int(rand(100)));
-    ok( defined $min && defined $max 
+    ok( defined $min && defined $max
         && ($min <= $max), 'gsl_rng_min and gsl_rng_max');
 }
 
@@ -111,8 +111,8 @@ sub GSL_RNG_NO_MORE_SECRETS : Tests {
 
     # throw away the first $k values
     map {  $rng1->get && $rng2->get } (1..$k);
-    
-    my ($n1,$n2) = ( $rng1->get , $rng2->get ); 
+
+    my ($n1,$n2) = ( $rng1->get , $rng2->get );
     ok( $n1 == $n2 , "parrallel state test: $n1 ?= $n2" );
 }
 
