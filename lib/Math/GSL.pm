@@ -194,7 +194,7 @@ under the same terms as Perl itself.
 
 =cut
 
-sub new 
+sub new
 {
     my ($self,$args) = @_;
     my $class = ref $self || $self || 'Math::GSL';

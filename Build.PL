@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-# This has been heavily modified from the Device::Cdio Build.PL 
+# This has been heavily modified from the Device::Cdio Build.PL
 # Jonathan Leto <jonathan@leto.net>
 
 #    Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
@@ -77,7 +77,7 @@ sub try_compile {
 	    my $errno = $? >> 8;
 	    local $! = $errno;
 	    print "
-		
+
 *** The test compile of '$tmp.c' failed: status $?
 *** (the status means: errno = $errno or '$!')
 *** DO NOT PANIC: this just means that you may get some innocuous
@@ -101,7 +101,7 @@ sub try_cflags ($) {
     }
     print "no\n";
     return '';
-	
+
 }
 
 print "Checking for GSL..";
@@ -124,24 +124,24 @@ if (defined $gv) {
     $current_minor_version = $current[1];
     unless ($current[0] >= $min[0] && $current[1] >= $min[1]) {
 	    printf "
-*** 
+***
 *** You need to have GSL %s or greater installed. (You have $gv).
 *** Get GSL at http://www.gnu.org/software/gsl\n", $MIN_GSL_VERSION;
 	    exit 1;
 	} else {
 	    print "Found GSL version $gv\n";
-	    
+
 	}
     } else {
 	print "
-*** 
+***
 *** Can't parse GSL version $gv.
 *** Will continue and keep my fingers crossed for luck.
 ";
     }
 } else {
     print "
-*** 
+***
 *** Can't find GSL configuration info. Is GSL installed?
 *** Get GSL at http://www.gnu.org/software/gsl
 ";
@@ -193,11 +193,11 @@ if ($current_minor_version < 9 ) {
 }
 my $cleanup = qq{
                  xs/*_wrap.c core *.core swig/system.i
-                 swig/*.o Makefile Math-GSL-* tmp* pod2ht*.tmp _build 
-                 lib/Math/GSL/[A-z]+/* blib *.so *.orig 
+                 swig/*.o Makefile Math-GSL-* tmp* pod2ht*.tmp _build
+                 lib/Math/GSL/[A-z]+/* blib *.so *.orig
                  } . join " ", map { catfile( (qw( lib Math GSL ), "$_.pm") ) } @Subsystems;
 
-my $builder = GSLBuilder->new( 
+my $builder = GSLBuilder->new(
     module_name         => 'Math::GSL',
     add_to_cleanup      => [ $cleanup ],
     create_makefile_pl  => 'passthrough',
@@ -207,7 +207,7 @@ my $builder = GSLBuilder->new(
     include_dirs	    => [],
     extra_linker_flags  => '-shared ' . $ldflags,
     extra_compiler_flags=> "$ccflags " . ($ENV{CC_FLAGS}||''),
-    swig_flags          => $swig_flags, 
+    swig_flags          => $swig_flags,
     license             => 'gpl',
     requires => {
         'ExtUtils::PkgConfig'   => '1.03',
@@ -222,7 +222,7 @@ my $builder = GSLBuilder->new(
     configure_requires => {
         'ExtUtils::PkgConfig' => '1.03',
     },
-    swig_source           => [  
+    swig_source           => [
                                 map { [ "swig/$_.i", "pod/$_.pod" ] } @Subsystems ,
                              ],
 );

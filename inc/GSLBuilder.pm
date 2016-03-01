@@ -9,7 +9,7 @@ use base 'Module::Build';
 sub is_release {
     return -e '.git' ? 0 : 1;
 }
-sub subsystems {   
+sub subsystems {
     sort qw/
         Diff         Machine      Statistics    BLAS
         Eigen        Matrix       Poly          MatrixComplex
@@ -17,12 +17,12 @@ sub subsystems {
         CBLAS        FFT          Min           IEEEUtils
         CDF          Fit          QRNG
         Chebyshev    Monte        RNG           Vector
-        Heapsort     Multifit     Randist       Roots     
+        Heapsort     Multifit     Randist       Roots
         Combination  Histogram    Multimin      Wavelet
         Complex      Histogram2D  Multiroots    Wavelet2D
         Const        Siman        Sum           Sys
-        NTuple       Integration  Sort          Test        
-        DHT          Interp       ODEIV         SF 
+        NTuple       Integration  Sort          Test
+        DHT          Interp       ODEIV         SF
         Deriv        Linalg       Permutation   Spline
     /;
 }
@@ -51,12 +51,12 @@ sub process_swig {
     $file_base =~ s!swig/!!g;
     my $c_file = catdir('xs',"${file_base}_wrap.c");
 
-    my @deps = defined $deps_ref ?  @$deps_ref : (); 
+    my @deps = defined $deps_ref ?  @$deps_ref : ();
 
     # don't bother with swig if this is a CPAN release
     unless ( is_release() ) {
-        $self->compile_swig($main_swig_file, $c_file) 
-                unless($self->up_to_date( [$main_swig_file, @deps],$c_file)); 
+        $self->compile_swig($main_swig_file, $c_file)
+                unless($self->up_to_date( [$main_swig_file, @deps],$c_file));
     }
     # .c -> .o
     my $obj_file = $self->compile_c($c_file);
@@ -81,21 +81,21 @@ sub compile_swig {
     $file_base =~ s!swig/!!g;
 
     my $pm_file = "${file_base}.pm";
-    
+
     my @swig       = qw/swig/, defined($p->{swig}) ? ($self->split_like_shell($p->{swig})) : ();
     my @swig_flags = defined($p->{swig_flags}) ? $self->split_like_shell($p->{swig_flags}) : ();
-   
+
     my $blib_lib = catfile(qw/blib lib/);
     my $gsldir   = catfile($blib_lib, qw/Math GSL/);
     mkdir $gsldir unless -e $gsldir;
 
-    
+
     my $from    = catfile($gsldir, $pm_file);
     my $to      = catfile(qw/lib Math GSL/,$pm_file);
     chmod 0644, $from, $to;
 
     $self->do_system(@swig, '-o', $c_file ,
-                     '-outdir', $gsldir, 
+                     '-outdir', $gsldir,
 		             '-perl5', @swig_flags, $file)
 	    or die "error : $! while building ( @swig_flags ) $c_file in $gsldir from '$file'";
     print "Copying from: $from, to: $to; it makes the CPAN indexer happy.\n";
@@ -116,13 +116,13 @@ sub link_c {
 
   $self->add_to_cleanup($lib_file);
   my $objects = $p->{objects} || [];
-  
+
   unless ($self->up_to_date([$obj_file, @$objects], $lib_file)) {
     my @linker_flags = $self->split_like_shell($p->{extra_linker_flags});
 
     push @linker_flags, $Config{archlib} . '/CORE/' . $Config{libperl} if (is_windows() or is_darwin());
 
-    my @lddlflags = $self->split_like_shell($cf->{lddlflags}); 
+    my @lddlflags = $self->split_like_shell($cf->{lddlflags});
     my @shrp = $self->split_like_shell($cf->{shrpenv});
     my @ld = $self->split_like_shell($cf->{ld}) || "gcc";
 
@@ -133,17 +133,17 @@ sub link_c {
 		     $obj_file, @$objects, @linker_flags)
       or die "error building $lib_file file from '$obj_file'";
   }
-  
+
   return $lib_file;
 }
 
-# From Base.pm but modified to put package cflags *after* 
+# From Base.pm but modified to put package cflags *after*
 # installed c flags so warning-removal will have an effect.
 
 sub compile_c {
   my ($self, $file) = @_;
   my ($cf, $p) = ($self->{config}, $self->{properties}); # For convenience
-  
+
   # File name, minus the suffix
   (my $file_base = $file) =~ s/\.[^.]+$//;
   my $obj_file = $file_base . $Config{_o};
@@ -154,7 +154,7 @@ sub compile_c {
 
   $cf->{installarchlib} = $Config{archlib};
 
-  my @include_dirs = @{$p->{include_dirs}} 
+  my @include_dirs = @{$p->{include_dirs}}
 			? map {"-I$_"} (@{$p->{include_dirs}}, catdir($cf->{installarchlib}, 'CORE'))
 			: map {"-I$_"} ( catdir($cf->{installarchlib}, 'CORE') ) ;
 
@@ -175,10 +175,10 @@ sub compile_c {
   # it can be added back via @extra_compiler_flags.
 
   my @flags = (@include_dirs, @cccdlflags, '-c', @ccflags, @extra_compiler_flags, );
-  
+
   my @cc = $self->split_like_shell($cf->{cc});
   @cc = "gcc" unless @cc;
-  
+
   $self->do_system(@cc, @flags, '-o', $obj_file, $file)
     or die "error building $Config{_o} file from '$file'";
 

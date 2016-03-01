@@ -28,7 +28,7 @@ sub teardown : Test(teardown) {
     #gsl_min_fminimizer_free($self->{brent});
 }
 
-sub GSL_MIN_TYPES : Tests { 
+sub GSL_MIN_TYPES : Tests {
 
     my $m = gsl_min_fminimizer_alloc($gsl_min_fminimizer_goldensection);
     isa_ok($m, 'Math::GSL::Min');
@@ -47,8 +47,8 @@ sub GSL_MIN_SET : Tests {
     my $self = shift;
     my $mini = $self->{min};
     ok_status(
-            gsl_min_fminimizer_set($mini, 
-                sub { cos($_[0]) }, 3, 0, 2*$M_PI     
+            gsl_min_fminimizer_set($mini,
+                sub { cos($_[0]) }, 3, 0, 2*$M_PI
             )
     );
     # These are the first guesses first the initial iteration
@@ -76,23 +76,23 @@ sub GSL_MIN_TEST_INTERVAL : Tests {
     my ($x_lower, $x_upper, $epsabs, $epsrel) = (0,1e-7, 1e-3,1e-5);
     ok_status(gsl_min_test_interval ($x_lower, $x_upper, $epsabs, $epsrel),
         $GSL_SUCCESS, 'gsl_min_test_interval'
-    ); 
+    );
 
     ($x_lower, $x_upper, $epsabs, $epsrel) = (0,1e-2, 1e-3,1e-5);
     ok_status(gsl_min_test_interval ($x_lower, $x_upper, $epsabs, $epsrel),
         $GSL_CONTINUE, 'gsl_min_test_interval'
-    ); 
+    );
 }
 
 sub GSL_MIN_ITERATE : Tests {
     my $self = shift;
     my $mini = $self->{min};
     #warn Dumper [ $mini, $mini->{state} ];
-    ok_status(gsl_min_fminimizer_set_with_values($mini, 
-        sub { cos($_[0]) }, 
+    ok_status(gsl_min_fminimizer_set_with_values($mini,
+        sub { cos($_[0]) },
         3, cos(3),
         0, cos(0),
-        2*$M_PI, cos(2*$M_PI)     
+        2*$M_PI, cos(2*$M_PI)
     ));
     #warn Dumper [ $mini, $mini->{state} ];
     #trace 'on';

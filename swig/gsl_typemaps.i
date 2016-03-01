@@ -37,7 +37,7 @@
        // if ($1) free($1);
 }
 
-%apply double const [] { 
+%apply double const [] {
     double *data, double *dest, double *f_in, double *f_out,
     double data[], const double * src, double x[], double a[], double b[],
     const double * x, const double * y, const double * w , const double x_array[],
@@ -75,7 +75,7 @@
         //if ($1) free($1);
 }
 
-%apply float const [] { 
+%apply float const [] {
     float const *A, float const *B, float const *C, float const *y
 };
 
@@ -127,7 +127,7 @@
         double val=(double)(float)($1[i]);
         tv = av_fetch(p_array->array, i, 0);
         sv_setnv(*tv, val);
-        if (argvi >= items) {            
+        if (argvi >= items) {
             EXTEND(sp,1);              /* Extend the stack by 1 object */
         }
         $result = sv_newmortal();
@@ -192,11 +192,11 @@
     gsl_complex_packed_array data
 };
 
-%apply float const [] { 
+%apply float const [] {
     float const *A, float const *B, float const *C, float *C
 };
 
-%apply size_t const [] { 
+%apply size_t const [] {
     size_t *p
 }
 
@@ -258,7 +258,7 @@
         PUTBACK;                                /* make local stack pointer global */
         FREETMPS;
         LEAVE;
-         
+
         return y;
     }
     double call_gsl_monte_function(double *x_array , size_t dim, void *params){
@@ -296,7 +296,7 @@
         PUTBACK;                                /* make local stack pointer global */
         FREETMPS;
         LEAVE;
-         
+
         return y;
     }
 %}
@@ -353,7 +353,7 @@
         params=&PL_sv_undef;
     }
     params = newSVsv(params);
-            
+
     w_gsl_monte_function.f = f;
     w_gsl_monte_function.dim = dim;
     w_gsl_monte_function.params = params;
@@ -397,7 +397,7 @@
         params=&PL_sv_undef;
     }
     params = newSVsv(params);
-            
+
     w_gsl_function.params = params;
     w_gsl_function.function = function;
     w_gsl_function.C_gsl_function.params   = &w_gsl_function;
